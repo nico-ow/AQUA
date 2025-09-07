@@ -16,24 +16,16 @@ function confirmLogout(e) {
 </script>
 <body>
     <div class="navbar">
-        <a href="index.php" class="brand" style="text-decoration: none;">AquaSide Fish Store</a>
-        <div class="nav-links">
-            <a href="shop.php">Shop</a>
-            <?php if (!isset($_SESSION['user_id'])): ?>
-                <a href="login.php">Login</a>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <span class="nav-link-btn" style="cursor:default;"> <?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?> </span>
-                <form id="logout-form" method="post" style="display:inline;margin:0;padding:0;">
-    <button type="button" class="nav-link-btn" onclick="confirmLogout(event)">Logout</button>
-    <input type="hidden" name="logout" value="1">
-</form>
-                <a href="#" id="cart-link">Cart (<?php echo $cartCount; ?>)</a>
-            <?php else: ?>
-                <a href="register.php" id="cart-link">Cart (<?php echo $cartCount; ?>)</a>
-            <?php endif; ?>
-        </div>
+    <a href="index.html" class="brand" style="text-decoration: none;">AquaSide Fish Store</a>
+    <div class="nav-links">
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="#" id="cart-link">Cart (0)</a>
     </div>
+</div>
+</div>
     <div id="cart-modal" class="cart-modal">
         <div class="cart-modal-content">
             <span class="close" id="close-cart">&times;</span>
