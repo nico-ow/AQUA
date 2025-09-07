@@ -25,58 +25,7 @@ function confirmLogout(e) {
         <a href="#" id="cart-link">Cart (0)</a>
     </div>
 </div>
-</div>
-    <div id="cart-modal" class="cart-modal">
-        <div class="cart-modal-content">
-            <span class="close" id="close-cart">&times;</span>
-            <h2>Your Cart</h2>
-            <?php if (!empty($_SESSION['cart'])): ?>
-                <form method="post" id="cart-update-form">
-                    <ul style="list-style:none;padding:0;">
-                    <?php
-                    $total = 0;
-                    require_once __DIR__ . '/app/includes/database.php';
-                    $db = new \Aries\Dbmodel\Includes\Database();
-                    $pdo = $db->getConnection();
-                    $productIds = array_keys($_SESSION['cart']);
-                    $productsMap = [];
-                    if ($productIds) {
-                        $in = str_repeat('?,', count($productIds) - 1) . '?';
-                        $stmt = $pdo->prepare("SELECT id, name, price, image FROM products WHERE id IN ($in)");
-                        $stmt->execute($productIds);
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            $productsMap[$row['id']] = $row;
-                        }
-                    }
-                    foreach ($_SESSION['cart'] as $productId => $qty):
-                        $product = isset($productsMap[$productId]) ? $productsMap[$productId] : null;
-                        if (!$product) continue;
-                        $subtotal = $product['price'] * $qty;
-                        $total += $subtotal;
-                    ?>
-                        <li style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;">
-                            <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:60px;height:60px;object-fit:contain;border-radius:0;background:transparent;border:none;">
-                            <div style="flex:1;">
-                                <div style="font-weight:bold;"> <?php echo htmlspecialchars($product['name']); ?> </div>
-                                <div style="color:#555;">₱<?php echo number_format($product['price'],2); ?></div>
-                            </div>
-                            <div style="display:flex;align-items:center;gap:0.5rem;">
-                                <button type="submit" name="cart_minus" value="<?php echo $productId; ?>" style="width:28px;height:28px;font-size:1.2em;">-</button>
-                                <span style="min-width:24px;display:inline-block;text-align:center;"> <?php echo $qty; ?> </span>
-                                <button type="submit" name="cart_add" value="<?php echo $productId; ?>" style="width:28px;height:28px;font-size:1.2em;">+</button>
-                            </div>
-                            <div style="width:80px;text-align:right;">₱<?php echo number_format($subtotal,2); ?></div>
-                        </li>
-                    <?php endforeach; ?>
-                    </ul>
-                    <div style="text-align:right;font-weight:bold;font-size:1.1em;margin-bottom:1.2rem;">Total: ₱<?php echo number_format($total,2); ?></div>
-                    <button type="submit" name="checkout" style="width:100%;background:#023e8a;color:#fff;padding:0.7rem 0;font-size:1.1em;border-radius:4px;border:none;">Checkout</button>
-                </form>
-            <?php else: ?>
-                <p>Your cart is empty.</p>
-            <?php endif; ?>
-        </div>
-    </div>
+
     <div class="banner-section" id="banner-section">
         <div class="banner-overlay"></div>
         <div class="banner-text">
